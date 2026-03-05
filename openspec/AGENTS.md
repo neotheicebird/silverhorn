@@ -72,6 +72,12 @@ After deployment, create separate PR to:
 - [ ] Run `openspec list` to see active changes
 - [ ] Run `openspec list --specs` to see existing capabilities
 
+**Coding Practice (Educational Context):**
+- [ ] Add detailed educational comments to all new or modified code.
+- [ ] Explain the *intent*, *relevant language concepts*, and *architectural decisions*.
+- [ ] Treat the project as an interactive learning experience for the user.
+- [ ] These comments are for the learning phase and may be removed or reduced later.
+
 **Before Creating Specs:**
 - Always check if capability already exists
 - Prefer modifying existing specs over creating duplicates
@@ -397,6 +403,13 @@ Only add complexity with:
 - Single purpose per capability
 - 10-minute understandability rule
 - Split if description needs "AND"
+
+### Git Commit Guidelines
+- **Detailed Messages**: Since AI-driven development involves larger batched changes, commit messages must be detailed.
+- **Structure**:
+  - **Summary**: Concise, imperative (e.g., "feat: Add user authentication").
+  - **Body**: Bulleted list of specific changes, explaining *why* and *what* changed per file or module.
+  - **Context**: Mention any spec updates or architectural shifts.
 
 ### Change ID Naming
 - Use kebab-case, short and descriptive: `add-two-factor-auth`
