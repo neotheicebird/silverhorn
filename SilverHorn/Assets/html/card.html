@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+/*
+  card.css is injected inline by HTMLTemplateBuilder along with
+  dynamic values for font-family, font-size, colors, etc.
+  See Rendering/HTMLTemplateBuilder.swift for the full injection logic.
+*/
+{{STYLE_BLOCK}}
+</style>
+</head>
+<body>
+<div class="card">
+  <p class="text" id="cardText">{{TEXT}}</p>
+</div>
+<script>
+/*
+  FONT SCALING ALGORITHM (spec §8):
+  1. Measure whether the text overflows the card height.
+  2. If overflow, reduce font-size by 2px and re-measure.
+  3. Stop reducing at MIN_FONT_SIZE (36px).
+  4. If still overflowing at minimum, clip with text-overflow: ellipsis.
+
+  This runs synchronously before the page is considered "done" so that
+  WKWebView.takeSnapshot() captures the final scaled state.
+*/
+(function() {
+  const el     = document.getElementById('cardText');
+  const card   = document.querySelector('.card');
+  const MIN_PX = 36;
+
+  // Parse the current computed font size as a number (strips "px").
+  let size = parseFloat(window.getComputedStyle(el).fontSize);
+
+  // Shrink until text fits or we hit the minimum.
+  while (card.scrollHeight > card.clientHeight && size > MIN_PX) {
+    size -= 2;
+    el.style.fontSize = size + 'px';
+  }
+
+  // If still overflowing at minimum size, truncate with ellipsis (spec §8).
+  if (card.scrollHeight > card.clientHeight) {
+    el.style.overflow       = 'hidden';
+    el.style.display        = '-webkit-box';
+    el.style.webkitBoxOrient = 'vertical';
+    el.style.webkitLineClamp = '999';  // Clamp to available height visually.
+    el.style.textOverflow   = 'ellipsis';
+  }
+})();
+</script>
+</body>
+</html>

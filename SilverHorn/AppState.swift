@@ -9,11 +9,17 @@
 // This class is passed through the SwiftUI environment so every view
 // in the hierarchy can access and mutate shared state without prop drilling.
 //
-// PHASE STATUS: Stub — properties and methods will be filled in
-// during Phases 1–12 as each capability is implemented.
+// PERSISTENCE (spec §24):
+// The last selected theme and font are stored in standard UserDefaults
+// so they survive between share sessions. Only theme id and font rawValue
+// are stored — not card content (no persistence of user data).
 
 import SwiftUI
 
+// @MainActor ensures all mutations happen on the main thread, which is required
+// because CardRenderer is @MainActor (WKWebView must run on the main thread)
+// and SwiftUI @Observable state must be mutated on the main thread anyway.
+@MainActor
 @Observable
 final class AppState {
 
@@ -22,23 +28,110 @@ final class AppState {
     // Each CardModel wraps a paragraph and its cached rendered UIImage.
     var cards: [CardModel] = []
 
+    // Controls whether the paragraph selector modal is shown.
+    // Set to true by the parser when input yields >8 paragraphs.
+    var showParagraphSelector: Bool = false
+
+    // Holds all parsed paragraphs when >8 are found, for the selection modal.
+    var allParsedParagraphs: [ParagraphModel] = []
+
     // MARK: - Appearance State
     // The currently selected colour theme applied to all cards.
-    var selectedTheme: ThemeModel = ThemeModel.default
+    // Initialised from UserDefaults if a previous selection exists.
+    var selectedTheme: ThemeModel {
+        didSet { persistTheme() }
+    }
 
     // The currently selected font family applied to all cards.
-    var selectedFont: FontModel = .instrument
+    var selectedFont: FontModel {
+        didSet { persistFont() }
+    }
 
-    // Multiplier applied on top of the 72px base font size.
-    // Values above 1.0 increase size; below 1.0 decrease it.
-    // The rendered font is clamped to [36px, 72px] by the HTML template.
+    // Multiplier applied on top of the 72px base font size (spec §9).
+    // 1.0 = base (72px). Step size chosen by FontControls view.
     var fontSizeMultiplier: Double = 1.0
 
-    // MARK: - IPC
-    // Called by SilverHornApp when the silverhorn://open URL is received.
-    // Reads pending text from the App Group shared container.
-    // Full implementation in Phase 4.
+    // All available themes loaded from Config/themes.json.
+    let availableThemes: [ThemeModel]
+
+    // MARK: - Init
+    // Loads themes from JSON and restores last-used theme/font from UserDefaults.
+    init() {
+        let themes = ThemeModel.loadAll()
+        availableThemes = themes
+
+        // Restore last theme — fall back to first theme (Mauve) if none saved.
+        let savedThemeId = UserDefaults.standard.string(forKey: "lastThemeId")
+        selectedTheme = themes.first(where: { $0.id == savedThemeId }) ?? (themes.first ?? .default)
+
+        // Restore last font — fall back to Instrument if none saved.
+        let savedFontRaw = UserDefaults.standard.string(forKey: "lastFontId")
+        selectedFont = FontModel(rawValue: savedFontRaw ?? "") ?? .instrument
+    }
+
+    // MARK: - IPC (spec §22, design.md §2)
+    // Called by SilverHornApp when the `silverhorn://open` URL fires.
+    // Reads the pending text written by the Share Extension, clears it,
+    // and passes it to the paragraph parser.
     func loadSharedText() {
-        // Phase 4: read UserDefaults(suiteName:) and parse paragraphs
+        let defaults = UserDefaults(suiteName: "group.club.skape.silverhorn")
+
+        // Read and immediately clear the key so stale text is never re-loaded
+        // if the user opens the app directly a second time without sharing.
+        guard let text = defaults?.string(forKey: "pendingSharedText"),
+              !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        else { return }
+
+        defaults?.removeObject(forKey: "pendingSharedText")
+        defaults?.synchronize()
+
+        // Hand off to the paragraph parser (Phase 5).
+        ParagraphParser.parse(text, into: self)
+    }
+
+    // MARK: - Rendering
+
+    /// Triggers a render pass for all cards that lack a cached image.
+    /// Should be called after cards are set or appearance changes.
+    func renderCards() {
+        CardRenderer.shared.scheduleRender(
+            cards: cards,
+            theme: selectedTheme,
+            font: selectedFont,
+            multiplier: fontSizeMultiplier
+        ) { [weak self] id, image in
+            guard let self else { return }
+            // Find the card and update its rendered image.
+            // SwiftUI observes this mutation and redraws the affected card.
+            if let index = self.cards.firstIndex(where: { $0.id == id }) {
+                self.cards[index].renderedImage = image
+            }
+        }
+    }
+
+    /// Invalidates all card images and re-renders (theme or font change).
+    func invalidateAndRender() {
+        CardRenderer.shared.invalidateAll()
+        for index in cards.indices { cards[index].renderedImage = nil }
+        renderCards()
+    }
+
+    /// Invalidates a single card's image and re-renders (text edit).
+    func invalidateAndRender(id: UUID) {
+        CardRenderer.shared.invalidate(id: id)
+        if let index = cards.firstIndex(where: { $0.id == id }) {
+            cards[index].renderedImage = nil
+        }
+        renderCards()
+    }
+
+    // MARK: - Persistence (spec §24)
+
+    private func persistTheme() {
+        UserDefaults.standard.set(selectedTheme.id, forKey: "lastThemeId")
+    }
+
+    private func persistFont() {
+        UserDefaults.standard.set(selectedFont.rawValue, forKey: "lastFontId")
     }
 }

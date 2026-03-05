@@ -23,7 +23,7 @@ struct SilverHornApp: App {
 
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MainScreen()
                 .environment(appState)
                 // Listen for the silverhorn://open URL fired by the Share Extension.
                 // Phase 4 will implement the full text ingestion logic here.

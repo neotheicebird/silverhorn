@@ -1,0 +1,586 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0258BB63B81F2CDB93860DA7 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8900E96D0138FC81C204C0B5 /* CardView.swift */; };
+		0B95FF3BA522D9552C3C7549 /* CardCarousel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FA8A49E2DAFA968B5347783 /* CardCarousel.swift */; };
+		0BDED794BFD02687451AE3CB /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7090FCD5F1C302F845029645 /* AppState.swift */; };
+		15FAE962D101BCAEBDA5A661 /* CardRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7A41C30F514A6FFC01DB582 /* CardRenderer.swift */; };
+		17D6613EB603F9297B067A76 /* FontControls.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BE5587E61C58539DB9E75E /* FontControls.swift */; };
+		1D993E8070BAD287684667E8 /* CardModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C4775A727D702B71FFEEE78 /* CardModel.swift */; };
+		1E15A69281F5A19694E68357 /* HTMLTemplateBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = D6EF2F81DA20D0F91032FEC7 /* HTMLTemplateBuilder.swift */; };
+		1FD2B1CC0DF802C0C7F22DB4 /* SilverHornShareExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7577B40CE78B86641F374E43 /* SilverHornShareExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		51EC97A9D1C5D492AF80E93E /* SkeletonCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79854F74DB09555A07F5FB53 /* SkeletonCardView.swift */; };
+		56CB7882675EC06B8E24ADA9 /* SilverHornApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6D1A765E6A3E250195E8DEC /* SilverHornApp.swift */; };
+		56EA7D48ECDDE01A9FF9EE0F /* MainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE461D3A2F2119F1BA1A1E5F /* MainScreen.swift */; };
+		6554B0B9D34DACA4A6DC7EAD /* TextEditModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6791A42EB8A18C34389FC49D /* TextEditModal.swift */; };
+		6A9B2642257510ACE03354F4 /* ThemeSelector.swift in Sources */ = {isa = PBXBuildFile; fileRef = A595672AF413E4A00885730B /* ThemeSelector.swift */; };
+		6D0A8B4EC59BF9803DA6C5C5 /* ThemeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACDD27E689B84293A0D43830 /* ThemeModel.swift */; };
+		8B77BFEAAB7669B81CDF1747 /* card.html in Resources */ = {isa = PBXBuildFile; fileRef = 8C8AB440707136933D9C0765 /* card.html */; };
+		90D40D6E1381C515B9A4AD08 /* ParagraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85131ADD3E1388266E696D2F /* ParagraphModel.swift */; };
+		A1DCC0CA98487D23DE83CD5A /* FontModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB470AB7812E7E8FD118F31D /* FontModel.swift */; };
+		ADCA26F5AE42D36348BDDA7B /* themes.json in Resources */ = {isa = PBXBuildFile; fileRef = E0A3E905E2BBE819E521D35B /* themes.json */; };
+		BC79C97EA5A6F8B424A67E70 /* ParagraphSelectorModal.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7DC6211051ECAE5ACE49E1 /* ParagraphSelectorModal.swift */; };
+		BD2E7C3D1DB06DEE660710FE /* ShareViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9B6515D5311F97A6BE720 /* ShareViewController.swift */; };
+		CC3C28C1E9AEF05F84285207 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A22B5FAD8A0898D70750EC1A /* Assets.xcassets */; };
+		CCA48F2085E69A47FBFA2EF5 /* ParagraphParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BA0CE90F852A8C1CB9382E /* ParagraphParser.swift */; };
+		D797E2EBACCD82F4552C0755 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A87FDC8F3BF757FE72DCF88 /* ContentView.swift */; };
+		F7CA9CAC1A5336E4384D1B48 /* ImageExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7E1E3886D9AFA0B2567E87 /* ImageExportService.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1E22B55D018F4EA69287E0C4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 50DF292585ACC1A9C3A41B4C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 435E49ACFC93FB2B63C3F102;
+			remoteInfo = SilverHornShareExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		F8B46F4F8F57C7DE59A0DD3E /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				1FD2B1CC0DF802C0C7F22DB4 /* SilverHornShareExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		01C9B6515D5311F97A6BE720 /* ShareViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareViewController.swift; sourceTree = "<group>"; };
+		1BA739BEE9D219188B1A81D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		42928CEB2D3609C3920AEAA2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		5C4775A727D702B71FFEEE78 /* CardModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardModel.swift; sourceTree = "<group>"; };
+		6791A42EB8A18C34389FC49D /* TextEditModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditModal.swift; sourceTree = "<group>"; };
+		6A87FDC8F3BF757FE72DCF88 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		6FA8A49E2DAFA968B5347783 /* CardCarousel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardCarousel.swift; sourceTree = "<group>"; };
+		7090FCD5F1C302F845029645 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		7577B40CE78B86641F374E43 /* SilverHornShareExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SilverHornShareExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		78BEE5DEF361279C2AB4BC6D /* SilverHornShareExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SilverHornShareExtension.entitlements; sourceTree = "<group>"; };
+		79854F74DB09555A07F5FB53 /* SkeletonCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SkeletonCardView.swift; sourceTree = "<group>"; };
+		85131ADD3E1388266E696D2F /* ParagraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphModel.swift; sourceTree = "<group>"; };
+		85BA0CE90F852A8C1CB9382E /* ParagraphParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphParser.swift; sourceTree = "<group>"; };
+		8900E96D0138FC81C204C0B5 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
+		8C8AB440707136933D9C0765 /* card.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; path = card.html; sourceTree = "<group>"; };
+		A22B5FAD8A0898D70750EC1A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A595672AF413E4A00885730B /* ThemeSelector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeSelector.swift; sourceTree = "<group>"; };
+		A7BE5587E61C58539DB9E75E /* FontControls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontControls.swift; sourceTree = "<group>"; };
+		AA7DC6211051ECAE5ACE49E1 /* ParagraphSelectorModal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParagraphSelectorModal.swift; sourceTree = "<group>"; };
+		ACDD27E689B84293A0D43830 /* ThemeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeModel.swift; sourceTree = "<group>"; };
+		BB470AB7812E7E8FD118F31D /* FontModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontModel.swift; sourceTree = "<group>"; };
+		BE461D3A2F2119F1BA1A1E5F /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
+		C16149C0406999123E8CFAC4 /* SilverHorn.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SilverHorn.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D6EF2F81DA20D0F91032FEC7 /* HTMLTemplateBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLTemplateBuilder.swift; sourceTree = "<group>"; };
+		E0A3E905E2BBE819E521D35B /* themes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = themes.json; sourceTree = "<group>"; };
+		E6D1A765E6A3E250195E8DEC /* SilverHornApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilverHornApp.swift; sourceTree = "<group>"; };
+		E7A41C30F514A6FFC01DB582 /* CardRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardRenderer.swift; sourceTree = "<group>"; };
+		EC10D9A65725B76BF53E2D41 /* SilverHorn.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SilverHorn.entitlements; sourceTree = "<group>"; };
+		FC7E1E3886D9AFA0B2567E87 /* ImageExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageExportService.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		0137286DF3E0240D357A8D70 /* Config */ = {
+			isa = PBXGroup;
+			children = (
+				E0A3E905E2BBE819E521D35B /* themes.json */,
+			);
+			path = Config;
+			sourceTree = "<group>";
+		};
+		40596A2B00EB1CCB10ED2023 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				FC7E1E3886D9AFA0B2567E87 /* ImageExportService.swift */,
+				85BA0CE90F852A8C1CB9382E /* ParagraphParser.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		4D7E2A9BE82B1F2697366BFD /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C16149C0406999123E8CFAC4 /* SilverHorn.app */,
+				7577B40CE78B86641F374E43 /* SilverHornShareExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		5CF7AEB472DC9CB924A348A3 /* html */ = {
+			isa = PBXGroup;
+			children = (
+				8C8AB440707136933D9C0765 /* card.html */,
+			);
+			path = html;
+			sourceTree = "<group>";
+		};
+		83196744CE357A160006B7F3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				5C4775A727D702B71FFEEE78 /* CardModel.swift */,
+				BB470AB7812E7E8FD118F31D /* FontModel.swift */,
+				85131ADD3E1388266E696D2F /* ParagraphModel.swift */,
+				ACDD27E689B84293A0D43830 /* ThemeModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		8B400CAE0AA134B335B19FAC /* SilverHorn */ = {
+			isa = PBXGroup;
+			children = (
+				E5FE432220CD224E67DF2124 /* Assets */,
+				0137286DF3E0240D357A8D70 /* Config */,
+				F2C8BED0063A01EFED651F23 /* Modals */,
+				83196744CE357A160006B7F3 /* Models */,
+				F9FF894BECA92465C737BC2E /* Rendering */,
+				40596A2B00EB1CCB10ED2023 /* Services */,
+				CFC9B69C9C1F0011BCC9A117 /* UI */,
+				7090FCD5F1C302F845029645 /* AppState.swift */,
+				A22B5FAD8A0898D70750EC1A /* Assets.xcassets */,
+				6A87FDC8F3BF757FE72DCF88 /* ContentView.swift */,
+				1BA739BEE9D219188B1A81D2 /* Info.plist */,
+				EC10D9A65725B76BF53E2D41 /* SilverHorn.entitlements */,
+				E6D1A765E6A3E250195E8DEC /* SilverHornApp.swift */,
+			);
+			path = SilverHorn;
+			sourceTree = "<group>";
+		};
+		A7847848D8EF4A98F5129C7C = {
+			isa = PBXGroup;
+			children = (
+				8B400CAE0AA134B335B19FAC /* SilverHorn */,
+				CDB952E278A7033361118DD7 /* SilverHornShareExtension */,
+				4D7E2A9BE82B1F2697366BFD /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CDB952E278A7033361118DD7 /* SilverHornShareExtension */ = {
+			isa = PBXGroup;
+			children = (
+				42928CEB2D3609C3920AEAA2 /* Info.plist */,
+				01C9B6515D5311F97A6BE720 /* ShareViewController.swift */,
+				78BEE5DEF361279C2AB4BC6D /* SilverHornShareExtension.entitlements */,
+			);
+			path = SilverHornShareExtension;
+			sourceTree = "<group>";
+		};
+		CFC9B69C9C1F0011BCC9A117 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				6FA8A49E2DAFA968B5347783 /* CardCarousel.swift */,
+				8900E96D0138FC81C204C0B5 /* CardView.swift */,
+				A7BE5587E61C58539DB9E75E /* FontControls.swift */,
+				BE461D3A2F2119F1BA1A1E5F /* MainScreen.swift */,
+				79854F74DB09555A07F5FB53 /* SkeletonCardView.swift */,
+				A595672AF413E4A00885730B /* ThemeSelector.swift */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		E5FE432220CD224E67DF2124 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				5CF7AEB472DC9CB924A348A3 /* html */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
+		F2C8BED0063A01EFED651F23 /* Modals */ = {
+			isa = PBXGroup;
+			children = (
+				AA7DC6211051ECAE5ACE49E1 /* ParagraphSelectorModal.swift */,
+				6791A42EB8A18C34389FC49D /* TextEditModal.swift */,
+			);
+			path = Modals;
+			sourceTree = "<group>";
+		};
+		F9FF894BECA92465C737BC2E /* Rendering */ = {
+			isa = PBXGroup;
+			children = (
+				E7A41C30F514A6FFC01DB582 /* CardRenderer.swift */,
+				D6EF2F81DA20D0F91032FEC7 /* HTMLTemplateBuilder.swift */,
+			);
+			path = Rendering;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		435E49ACFC93FB2B63C3F102 /* SilverHornShareExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D332F861B9D634142923607B /* Build configuration list for PBXNativeTarget "SilverHornShareExtension" */;
+			buildPhases = (
+				7B34AD71424CCF677861018D /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SilverHornShareExtension;
+			packageProductDependencies = (
+			);
+			productName = SilverHornShareExtension;
+			productReference = 7577B40CE78B86641F374E43 /* SilverHornShareExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		8E9FA8E26B84764BF058390B /* SilverHorn */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BE2478DA345BBA5F031C6B92 /* Build configuration list for PBXNativeTarget "SilverHorn" */;
+			buildPhases = (
+				25C4F17386DF214DD59F02DD /* Sources */,
+				2C1F6046036B5C432CD3C642 /* Resources */,
+				F8B46F4F8F57C7DE59A0DD3E /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B38AFD12C09E0C8C305DE62B /* PBXTargetDependency */,
+			);
+			name = SilverHorn;
+			packageProductDependencies = (
+			);
+			productName = SilverHorn;
+			productReference = C16149C0406999123E8CFAC4 /* SilverHorn.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		50DF292585ACC1A9C3A41B4C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					435E49ACFC93FB2B63C3F102 = {
+						DevelopmentTeam = WXMUS27A23;
+						ProvisioningStyle = Automatic;
+					};
+					8E9FA8E26B84764BF058390B = {
+						DevelopmentTeam = WXMUS27A23;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = B0AB3F7B0F7093B7FEC501DD /* Build configuration list for PBXProject "SilverHorn" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = A7847848D8EF4A98F5129C7C;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8E9FA8E26B84764BF058390B /* SilverHorn */,
+				435E49ACFC93FB2B63C3F102 /* SilverHornShareExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		2C1F6046036B5C432CD3C642 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CC3C28C1E9AEF05F84285207 /* Assets.xcassets in Resources */,
+				8B77BFEAAB7669B81CDF1747 /* card.html in Resources */,
+				ADCA26F5AE42D36348BDDA7B /* themes.json in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		25C4F17386DF214DD59F02DD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0BDED794BFD02687451AE3CB /* AppState.swift in Sources */,
+				0B95FF3BA522D9552C3C7549 /* CardCarousel.swift in Sources */,
+				1D993E8070BAD287684667E8 /* CardModel.swift in Sources */,
+				15FAE962D101BCAEBDA5A661 /* CardRenderer.swift in Sources */,
+				0258BB63B81F2CDB93860DA7 /* CardView.swift in Sources */,
+				D797E2EBACCD82F4552C0755 /* ContentView.swift in Sources */,
+				17D6613EB603F9297B067A76 /* FontControls.swift in Sources */,
+				A1DCC0CA98487D23DE83CD5A /* FontModel.swift in Sources */,
+				1E15A69281F5A19694E68357 /* HTMLTemplateBuilder.swift in Sources */,
+				F7CA9CAC1A5336E4384D1B48 /* ImageExportService.swift in Sources */,
+				56EA7D48ECDDE01A9FF9EE0F /* MainScreen.swift in Sources */,
+				90D40D6E1381C515B9A4AD08 /* ParagraphModel.swift in Sources */,
+				CCA48F2085E69A47FBFA2EF5 /* ParagraphParser.swift in Sources */,
+				BC79C97EA5A6F8B424A67E70 /* ParagraphSelectorModal.swift in Sources */,
+				56CB7882675EC06B8E24ADA9 /* SilverHornApp.swift in Sources */,
+				51EC97A9D1C5D492AF80E93E /* SkeletonCardView.swift in Sources */,
+				6554B0B9D34DACA4A6DC7EAD /* TextEditModal.swift in Sources */,
+				6D0A8B4EC59BF9803DA6C5C5 /* ThemeModel.swift in Sources */,
+				6A9B2642257510ACE03354F4 /* ThemeSelector.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7B34AD71424CCF677861018D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BD2E7C3D1DB06DEE660710FE /* ShareViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B38AFD12C09E0C8C305DE62B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 435E49ACFC93FB2B63C3F102 /* SilverHornShareExtension */;
+			targetProxy = 1E22B55D018F4EA69287E0C4 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		2B7C90958990512F820FCE59 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SilverHorn/SilverHorn.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = SilverHorn/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = club.skape.silverhorn;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		64FD04C85CDAFF6B005D33D6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = WXMUS27A23;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		8EACD933B415D9EF086CF2C5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SilverHorn/SilverHorn.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				INFOPLIST_FILE = SilverHorn/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = club.skape.silverhorn;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BE8737E085B4940FCE848FDB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SilverHornShareExtension/SilverHornShareExtension.entitlements;
+				INFOPLIST_FILE = SilverHornShareExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = club.skape.silverhorn.shareextension;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		D3A7A5225C17DAB81577A1CA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = WXMUS27A23;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		E04CFBA876F893406920F519 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SilverHornShareExtension/SilverHornShareExtension.entitlements;
+				INFOPLIST_FILE = SilverHornShareExtension/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = club.skape.silverhorn.shareextension;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B0AB3F7B0F7093B7FEC501DD /* Build configuration list for PBXProject "SilverHorn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D3A7A5225C17DAB81577A1CA /* Debug */,
+				64FD04C85CDAFF6B005D33D6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		BE2478DA345BBA5F031C6B92 /* Build configuration list for PBXNativeTarget "SilverHorn" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2B7C90958990512F820FCE59 /* Debug */,
+				8EACD933B415D9EF086CF2C5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		D332F861B9D634142923607B /* Build configuration list for PBXNativeTarget "SilverHornShareExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E04CFBA876F893406920F519 /* Debug */,
+				BE8737E085B4940FCE848FDB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 50DF292585ACC1A9C3A41B4C /* Project object */;
+}
