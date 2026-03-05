@@ -70,6 +70,7 @@ targets:
     info:
       path: SilverHornShareExtension/Info.plist
       properties:
+        CFBundleDisplayName: Silver Horn
         NSExtension:
           NSExtensionAttributes:
             NSExtensionActivationRule:
