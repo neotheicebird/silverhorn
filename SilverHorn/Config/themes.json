@@ -1,0 +1,6 @@
+[
+  { "id": "mauve",  "name": "Mauve",  "textColor": "#a79ea8", "bgColor": "#594c5b" },
+  { "id": "mist",   "name": "Mist",   "textColor": "#9da8ab", "bgColor": "#4b585b" },
+  { "id": "olive",  "name": "Olive",  "textColor": "#abab9c", "bgColor": "#5b5b4b" },
+  { "id": "carbon", "name": "Carbon", "textColor": "#ffffff", "bgColor": "#0c0c09" }
+]
