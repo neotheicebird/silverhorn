@@ -1,0 +1,594 @@
+# Silver Horn — Project Specification
+
+File: project-spec.txt
+
+---
+
+# 1. Product Overview
+
+Silver Horn is an iPhone-only utility app that converts text shared from other apps (primarily Apple Notes) into beautifully formatted social media cards.
+
+The app appears as a share target in iOS. When text is shared, the app parses the text into paragraphs and generates visual cards suitable for posting on social media.
+
+Users can:
+
+• preview generated cards
+• edit paragraph text
+• change theme colors
+• change font family
+• adjust font size
+• remove cards
+• export images
+
+Images can then be shared directly using the iOS share sheet or saved to the user’s photo library.
+
+The app focuses on simplicity and speed. There is no persistence, accounts, analytics, or cloud features.
+
+Version 1 must be extremely lightweight and deterministic so that it can be built with an AI-assisted coding workflow.
+
+---
+
+# 2. Platform Constraints
+
+Platform: iOS only
+Minimum iOS Version: iOS 17
+Distribution: TestFlight
+Devices: iPhone only
+
+No iPad layout support is required.
+
+---
+
+# 3. Core Flow
+
+Typical user flow:
+
+1. User writes a note in Apple Notes.
+2. User taps Share.
+3. User selects "Silver Horn".
+4. Share Extension captures the text.
+5. App launches.
+6. Text is parsed into paragraphs.
+7. Cards are generated.
+8. User optionally edits appearance.
+9. User exports images.
+
+---
+
+# 4. Input Handling
+
+Supported input:
+
+Plain text and rich text containing emoji.
+
+Unsupported input:
+
+Images
+URLs
+attachments
+formatted documents
+
+Formatting is stripped except for emoji characters.
+
+---
+
+# 5. Paragraph Parsing
+
+Text is split into paragraphs using:
+
+"\n\n"
+
+Rules:
+
+• Trim whitespace
+• Ignore empty paragraphs
+• Maximum usable paragraphs = 8
+
+If more than 8 paragraphs exist:
+
+A selection modal appears allowing the user to choose up to 8 paragraphs.
+
+Default behavior:
+
+The first 8 paragraphs are preselected.
+
+Selection UI:
+
+Scrollable list with radio-style selection circles.
+
+Text preview shows truncated paragraph content.
+
+---
+
+# 6. Card Layout
+
+Card Aspect Ratio:
+
+4:5 portrait
+
+Image Dimensions:
+
+1080 × 1350 pixels
+
+Text alignment:
+
+Center aligned
+
+Safe text padding:
+
+120px on all sides
+
+Maximum text width:
+
+80% of card width
+
+Background:
+
+Full bleed color
+
+---
+
+# 7. Typography
+
+Fonts are stored locally in assets.
+
+Each font has exactly one weight.
+
+Available fonts:
+
+Instrument
+Mona
+Georgia
+Helvetica Neue
+Cambria
+Courier New
+Liberation Mono
+
+Default font:
+
+Instrument
+
+If emoji rendering fails in a font:
+
+Fallback to system font.
+
+---
+
+# 8. Font Scaling Logic
+
+Base font size:
+
+72px
+
+Minimum font size:
+
+36px
+
+Rendering algorithm:
+
+1. Render text block
+2. Detect overflow
+3. Reduce font size gradually
+4. Stop shrinking at 36px
+
+If text still overflows:
+
+truncate with ellipsis "…"
+
+---
+
+# 9. Font Size Control UI
+
+UI consists of two buttons:
+
+Decrease font size
+Increase font size
+
+Icons:
+
+Lucide a-arrow-down
+Lucide a-arrow-up
+
+Font size is adjusted as a multiplier on the base size.
+
+Users never see numeric font values.
+
+---
+
+# 10. Color Themes
+
+Themes are defined in a configuration JSON.
+
+Each theme defines:
+
+text color
+background color
+
+Initial themes:
+
+Mauve
+text: #a79ea8
+bg: #594c5b
+
+Mist
+text: #9da8ab
+bg: #4b585b
+
+Olive
+text: #abab9c
+bg: #5b5b4b
+
+Carbon
+text: #ffffff
+bg: #0c0c09
+
+Theme selector UI:
+
+Circular color previews split vertically.
+
+Left side = text color
+Right side = background color
+
+Selecting a theme updates all cards instantly.
+
+---
+
+# 11. Card Editing
+
+Each card displays an edit icon below the card.
+
+Tapping edit opens a modal text editor.
+
+Editing rules:
+
+• editing modifies only that card
+• line breaks are NOT allowed
+• editing represents a single paragraph only
+
+Modal controls:
+
+Cancel
+Save
+
+If cancelled, changes are discarded.
+
+---
+
+# 12. Carousel Behavior
+
+Cards are displayed in a horizontal carousel.
+
+Behavior:
+
+• swipe left/right
+• paging enabled
+• snapping scroll
+• Instagram-like interaction
+
+Page indicator dots appear below carousel.
+
+---
+
+# 13. Card Deletion
+
+Each card shows an X button in the top-right corner.
+
+Rules:
+
+• card removed instantly
+• no confirmation dialog
+• minimum card count = 1
+
+---
+
+# 14. Rendering Architecture
+
+Cards are rendered using a WKWebView.
+
+Rendering stack:
+
+SwiftUI
+WKWebView
+HTML template
+CSS styling
+
+Flow:
+
+Text
+→ HTML generation
+→ WebView render
+→ snapshot
+→ UIImage
+
+---
+
+# 15. HTML Rendering Template
+
+Each card is rendered via an HTML template.
+
+Template properties:
+
+flexbox layout
+center aligned text
+dynamic font
+dynamic colors
+dynamic font size
+
+CSS must support:
+
+emoji rendering
+word wrapping
+text overflow detection
+
+---
+
+# 16. Rendering Strategy
+
+Images are rendered automatically.
+
+Rules:
+
+• rendered images cached in memory
+• when user edits text or appearance, re-render occurs after small delay
+
+Debounce time:
+
+300 ms
+
+---
+
+# 17. Skeleton Loading (UX Improvement)
+
+When the app first loads cards, placeholder cards must appear instantly.
+
+Skeleton cards mimic the card layout and display a subtle placeholder shimmer.
+
+Once rendering finishes, placeholders are replaced with rendered cards.
+
+This improves perceived performance.
+
+---
+
+# 18. Preview Card Shadow
+
+Preview cards should have a subtle drop shadow to separate them from the UI.
+
+Example shadow:
+
+radius: 12
+vertical offset: 6
+opacity: ~0.12
+
+IMPORTANT:
+
+Shadow is applied only to the preview card UI.
+
+Exported images must NOT contain shadows.
+
+---
+
+# 19. Theme Selection Animation
+
+When selecting a theme circle:
+
+Apply a quick scale animation.
+
+scale 1.0 → 1.1 → 1.0
+
+Animation curve:
+
+SwiftUI spring animation (~0.25s)
+
+---
+
+# 20. Export Status Indicator
+
+When exporting images (share or save), the app should display a small status indicator.
+
+Example:
+
+ProgressView spinner
+Text: "Preparing images…"
+
+This prevents perceived freezing if rendering takes time.
+
+---
+
+# 21. Image Export
+
+Two export options:
+
+Share
+Save to Library
+
+Share:
+
+Uses iOS share sheet.
+
+If multiple images exist:
+
+Share may fall back to Save workflow if share sheet limitations occur.
+
+Save to Library:
+
+Uses PHPhotoLibrary.
+
+Images saved to user's camera roll.
+
+---
+
+# 22. Share Extension
+
+Share Extension captures text from other apps.
+
+Extension responsibilities:
+
+Receive shared text
+Store text in shared container
+Launch main app
+
+Mechanism:
+
+App Groups shared container.
+
+Main app reads text from shared storage on launch.
+
+---
+
+# 23. Empty State
+
+If the app launches without shared text, display an empty state.
+
+Example message:
+
+"Share text from Notes to create social cards."
+
+This prevents confusion when opening the app directly.
+
+---
+
+# 24. Optional Theme Persistence
+
+Although the app does not persist user data, it may store the last selected theme and font using UserDefaults.
+
+This improves usability when the user shares multiple notes.
+
+This persistence is optional but recommended.
+
+---
+
+# 25. Application Structure
+
+Project Structure
+
+App/
+Extensions/ShareExtension/
+
+UI/
+MainScreen.swift
+CardCarousel.swift
+CardView.swift
+ThemeSelector.swift
+FontControls.swift
+
+Modals/
+ParagraphSelectorModal.swift
+TextEditModal.swift
+
+Rendering/
+CardRenderer.swift
+HTMLTemplateBuilder.swift
+
+Models/
+ParagraphModel.swift
+ThemeModel.swift
+FontModel.swift
+
+Services/
+ShareDataService.swift
+ImageExportService.swift
+PhotoLibraryService.swift
+
+Assets/fonts/
+Assets/html/
+Assets/css/
+
+Config/themes.json
+
+---
+
+# 26. App Icon
+
+A placeholder app icon should exist in the Assets catalog.
+
+Agent instructions:
+
+Assume a placeholder icon is available.
+
+If no icon exists, add a manual step in the task list reminding the developer to provide one before TestFlight build.
+
+The agent should NOT attempt to generate or design an icon.
+
+---
+
+# 27. Performance Targets
+
+Initial render:
+
+< 1.5 seconds for 8 cards
+
+Re-render latency:
+
+< 300 ms
+
+Memory usage:
+
+< 200 MB
+
+---
+
+# 28. Non Functional Constraints
+
+No analytics
+No login system
+No persistence system
+No watermark
+No cloud services
+
+App must function entirely offline.
+
+---
+
+# 29. Future Version Notes
+
+Planned improvements (not implemented in v1):
+
+Text alignment options
+Gradient backgrounds
+Background textures
+Template packs
+Animated cards
+Batch social posting
+
+Author attribution field (user name or social handle rendered on card)
+
+---
+
+# 30. OpenSpec Workflow
+
+Agents must follow OpenSpec workflow.
+
+Steps:
+
+1. Run OpenSpec to generate specs.
+2. Generate feature tasks.
+3. Review tasks with human developer.
+4. Implement tasks sequentially.
+
+Agent must obey guidelines defined in agent.md.
+
+No code implementation should begin without a generated task plan.
+
+---
+
+# 31. Acceptance Criteria
+
+The application is considered complete when:
+
+• Silver Horn appears in iOS share menu
+• text from Notes app imports correctly
+• paragraphs convert into cards
+• cards render visually with selected theme and font
+• carousel navigation works
+• text editing works
+• theme switching works
+• font switching works
+• font size adjustment works
+• cards export as images
+• images can be saved to photo library
+• app builds and runs on iOS 17 device
+• TestFlight build can be generated
+
+---
+
+End of Specification

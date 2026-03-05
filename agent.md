@@ -1,0 +1,4 @@
+- follow project-spec.txt strictly
+- never change architecture without asking
+- prefer simple solutions
+- minimize dependencies
