@@ -50,8 +50,8 @@ private struct ThemeCircle: View {
     // Drives the spring scale animation (spec §19).
     @State private var scale: CGFloat = 1.0
 
-    // Diameter of the circle in points.
-    private let diameter: CGFloat = 44
+    // Diameter of the circle in points (25% smaller than original 44pt).
+    private let diameter: CGFloat = 33
 
     var body: some View {
         Button(action: handleTap) {

@@ -7,7 +7,7 @@
 //       → HTML string with inlined CSS + optional base64 @font-face
 //         → WKWebView.loadHTMLString(_:baseURL:)
 //           → WKWebView.takeSnapshot(with:)
-//             → UIImage (1080×1350px)
+//             → UIImage (1350×1080px landscape)
 //
 // FONT EMBEDDING (design.md §6):
 // Custom fonts (Instrument, Mona) are not available in WKWebView's isolated
@@ -15,9 +15,9 @@
 // System fonts (Georgia, Helvetica Neue, etc.) are available natively.
 //
 // CARD DIMENSIONS (spec §6):
-// Logical render size: 540 × 675 pt (@2x → 1080 × 1350 px)
+// Logical render size: 675 × 540 pt landscape (@2x → 1350 × 1080 px)
 // Padding: 60pt all sides (→ 120px at @2x)
-// Max text width: 80% of card width
+// Text width: 80% of card width (fixed, not max-width)
 
 import UIKit
 
@@ -25,10 +25,10 @@ enum HTMLTemplateBuilder {
 
     // MARK: - Constants (spec §6, §8)
 
-    /// Logical card width in points. Snapshot at @2x yields 1080px.
-    static let cardWidthPt:  CGFloat = 540
-    /// Logical card height in points. Snapshot at @2x yields 1350px.
-    static let cardHeightPt: CGFloat = 675
+    /// Logical card width in points. Snapshot at @2x yields 1350px (landscape).
+    static let cardWidthPt:  CGFloat = 675
+    /// Logical card height in points. Snapshot at @2x yields 1080px (landscape).
+    static let cardHeightPt: CGFloat = 540
     /// Inner padding in points (120px / 2 for @2x).
     static let paddingPt:    CGFloat = 60
     /// Base font size in points before scaling (72px / 2 for @2x, spec §8).
@@ -99,7 +99,7 @@ enum HTMLTemplateBuilder {
             font-size: \(Int(clampedSize))px;
             color: \(theme.textColor);
             text-align: center;
-            max-width: 80%;         /* spec §6: max text width = 80% of card */
+            width: 80%;             /* spec §6: text width = 80% of card (fixed, not max-width) */
             word-wrap: break-word;
             overflow-wrap: break-word;
             line-height: 1.35;

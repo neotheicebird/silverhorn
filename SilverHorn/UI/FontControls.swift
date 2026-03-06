@@ -47,6 +47,8 @@ struct FontControls: View {
                 Image(systemName: "textformat.size.smaller")
                     .font(.title3)
                     .foregroundStyle(fontSizeMultiplier <= minMultiplier ? .tertiary : .primary)
+                    // Fill row height so the full area is tappable.
+                    .frame(maxHeight: .infinity)
             }
             .disabled(fontSizeMultiplier <= minMultiplier)
             .buttonStyle(.plain)
@@ -75,6 +77,8 @@ struct FontControls: View {
                         .font(.caption2)
                 }
                 .foregroundStyle(.primary)
+                // Expand to fill row so the entire label area is tappable.
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
             }
             .buttonStyle(.plain)
 
@@ -87,11 +91,17 @@ struct FontControls: View {
                 Image(systemName: "textformat.size.larger")
                     .font(.title3)
                     .foregroundStyle(fontSizeMultiplier >= maxMultiplier ? .tertiary : .primary)
+                    // Fill row height so the full area is tappable.
+                    .frame(maxHeight: .infinity)
             }
             .disabled(fontSizeMultiplier >= maxMultiplier)
             .buttonStyle(.plain)
         }
-        .padding(.horizontal)
+        // Padding-based row sizing: minHeight ensures easy tap targets,
+        // horizontal/vertical padding adds breathing room without fixing height.
+        .frame(minHeight: 56)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 8)
     }
 }
 
