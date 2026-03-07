@@ -51,7 +51,9 @@ struct CardCarousel: View {
         // Tint the page dots using the accent colour.
         .indexViewStyle(.page(backgroundDisplayMode: .never))
         // Height is derived from card width via 5:4 landscape ratio plus space for dots.
-        .frame(height: carouselHeight)
+        // .frame(height: carouselHeight)
+        .frame(height: cardHeight)
+        .padding(.bottom, 32)
         // Reset to last valid page when cards are deleted.
         .onChange(of: cards.count) { _, newCount in
             if newCount > 0, currentPage >= newCount {
@@ -65,10 +67,17 @@ struct CardCarousel: View {
     // Card height = card width * (4/5) to maintain 5:4 landscape ratio.
     // iPhone 12 example: 390 - 48 = 342pt wide → 274pt tall → 314pt with dots.
     // Add ~40pt for page dots below the card.
-    private var carouselHeight: CGFloat {
+    // private var carouselHeight: CGFloat {
+    //     let screenWidth = UIScreen.main.bounds.width
+    //     let cardWidth   = screenWidth - 48  // 24pt padding each side.
+    //     let cardHeight  = cardWidth * (4.0 / 5.0)
+    //     return cardHeight + 40
+    // }
+
+    // Let us use cardHeight instead of carouselHeight as the dots overlap the card
+    private var cardHeight: CGFloat {
         let screenWidth = UIScreen.main.bounds.width
-        let cardWidth   = screenWidth - 48  // 24pt padding each side.
-        let cardHeight  = cardWidth * (4.0 / 5.0)
-        return cardHeight + 40
+        let cardWidth = screenWidth - 48
+        return cardWidth * (4.0 / 5.0)
     }
 }

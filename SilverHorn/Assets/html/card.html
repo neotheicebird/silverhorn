@@ -1,22 +1,64 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-<meta charset="UTF-8">
-<style>
-/*
-  card.css is injected inline by HTMLTemplateBuilder along with
-  dynamic values for font-family, font-size, colors, etc.
-  See Rendering/HTMLTemplateBuilder.swift for the full injection logic.
-*/
-{{STYLE_BLOCK}}
-</style>
-</head>
-<body>
-<div class="card">
-  <p class="text" id="cardText">{{TEXT}}</p>
-</div>
-<script>
-/*
+    <head>
+        <meta charset="UTF-8" />
+        <style>
+            /*
+              card.css is injected inline by HTMLTemplateBuilder along with
+              dynamic values for font-family, font-size, colors, etc.
+              See Rendering/HTMLTemplateBuilder.swift for the full injection logic.
+            */
+            {{STYLE_BLOCK}}
+
+            /* Ensure full viewport render area */
+            html, body {
+              margin: 0;
+              padding: 0;
+              width: 100%;
+              height: 100%;
+            }
+
+            /* Card container fills the snapshot area */
+            .card {
+              width: 100%;
+              height: 100%;
+
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              box-sizing: border-box;
+            }
+
+            /* Inner layout wrapper */
+            .content {
+              width: 80%;
+              height: 100%;
+
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              text-align: center;
+            }
+
+            /* Text styling baseline */
+            .text {
+              width: 100%;
+              margin: 0;
+              line-height: 1.25;
+              word-break: break-word;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="card">
+            <div class="content">
+                <p class="text" id="cardText">{{TEXT}}</p>
+            </div>
+        </div>
+        <script>
+            /*
   FONT SCALING ALGORITHM (spec §8):
   1. Measure whether the text overflows the card height.
   2. If overflow, reduce font-size by 2px and re-measure.
@@ -26,29 +68,29 @@
   This runs synchronously before the page is considered "done" so that
   WKWebView.takeSnapshot() captures the final scaled state.
 */
-(function() {
-  const el     = document.getElementById('cardText');
-  const card   = document.querySelector('.card');
-  const MIN_PX = 36;
+            (function () {
+                const el = document.getElementById("cardText");
+                const card = document.querySelector(".card");
+                const MIN_PX = 36;
 
-  // Parse the current computed font size as a number (strips "px").
-  let size = parseFloat(window.getComputedStyle(el).fontSize);
+                // Parse the current computed font size as a number (strips "px").
+                let size = parseFloat(window.getComputedStyle(el).fontSize);
 
-  // Shrink until text fits or we hit the minimum.
-  while (card.scrollHeight > card.clientHeight && size > MIN_PX) {
-    size -= 2;
-    el.style.fontSize = size + 'px';
-  }
+                // Shrink until text fits or we hit the minimum.
+                while (card.scrollHeight > card.clientHeight && size > MIN_PX) {
+                    size -= 2;
+                    el.style.fontSize = size + "px";
+                }
 
-  // If still overflowing at minimum size, truncate with ellipsis (spec §8).
-  if (card.scrollHeight > card.clientHeight) {
-    el.style.overflow       = 'hidden';
-    el.style.display        = '-webkit-box';
-    el.style.webkitBoxOrient = 'vertical';
-    el.style.webkitLineClamp = '999';  // Clamp to available height visually.
-    el.style.textOverflow   = 'ellipsis';
-  }
-})();
-</script>
-</body>
+                // If still overflowing at minimum size, truncate with ellipsis (spec §8).
+                if (card.scrollHeight > card.clientHeight) {
+                    el.style.overflow = "hidden";
+                    el.style.display = "-webkit-box";
+                    el.style.webkitBoxOrient = "vertical";
+                    el.style.webkitLineClamp = "999"; // Clamp to available height visually.
+                    el.style.textOverflow = "ellipsis";
+                }
+            })();
+        </script>
+    </body>
 </html>
