@@ -32,6 +32,7 @@ struct SilverHornApp: App {
                     guard url.scheme == "silverhorn" else { return }
                     appState.loadSharedText()
                 }
+                .preferredColorScheme(ColorScheme.dark)
         }
     }
 }
