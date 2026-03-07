@@ -18,8 +18,8 @@ struct SkeletonCardView: View {
     // Toggled by .onAppear to start the loop.
     @State private var animating = false
 
-    // 4:5 aspect ratio (spec §6).
-    private let aspectRatio: CGFloat = 4.0 / 5.0
+    // 5:4 landscape aspect ratio (spec §6).
+    private let aspectRatio: CGFloat = 5.0 / 4.0
 
     // Shimmer gradient colours — subtle light pulse on a muted base.
     private let baseColor    = Color(white: 0.85)

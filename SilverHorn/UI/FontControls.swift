@@ -1,104 +1,98 @@
 // FontControls.swift
 // Font family picker and size increase/decrease controls.
-//
-// SPEC §9 — Font Size Control UI:
-// "Two buttons: Decrease font size / Increase font size
-//  Icons: Lucide a-arrow-down / a-arrow-up
-//  Font size is adjusted as a multiplier on the base size.
-//  Users never see numeric font values."
-//
-// SPEC §7 — Available fonts:
-// Instrument (default), Mona, Georgia, Helvetica Neue,
-// Cambria, Courier New, Liberation Mono
-//
-// IMPLEMENTATION NOTE — Lucide Icons:
-// Lucide a-arrow-up/down are not in SF Symbols. We use SF Symbols
-// "textformat.size.larger" and "textformat.size.smaller" as the
-// closest semantic equivalents available natively on iOS 17.
 
 import SwiftUI
 
 struct FontControls: View {
 
-    // Two-way bindings to AppState values.
-    @Binding var selectedFont:       FontModel
+    @Binding var selectedFont: FontModel
     @Binding var fontSizeMultiplier: Double
-
-    // Callback fired when any change occurs, so MainScreen can trigger re-render.
     var onChange: () -> Void
 
-    // Step size for the multiplier per button tap.
-    // 0.1 gives gentle increments without jarring jumps.
     private let step: Double = 0.1
-
-    // Clamp range for the multiplier — prevents font from becoming unreadable.
-    private let minMultiplier: Double = 0.5   // 36pt logical → 18pt (36px / 2)
-    private let maxMultiplier: Double = 1.5   // 54pt logical → 108px rendered
+    private let minMultiplier: Double = 0.5
+    private let maxMultiplier: Double = 1.5
 
     var body: some View {
-        HStack(spacing: 16) {
+        HStack {
+            HStack(spacing: 0) {
+                Button {
+                    let newValue = (fontSizeMultiplier - step).rounded(to: 1)
+                    fontSizeMultiplier = max(minMultiplier, newValue)
+                    onChange()
+                } label: {
+                    Image(systemName: "textformat.size.smaller")
+                        .font(.subheadline.weight(.semibold))
+                        .frame(width: 40, height: 34)
+                }
+                .buttonStyle(.plain)
+                .disabled(fontSizeMultiplier <= minMultiplier)
 
-            // MARK: Font Size Decrease (Lucide a-arrow-down equivalent)
-            Button {
-                let newValue = (fontSizeMultiplier - step).rounded(to: 1)
-                fontSizeMultiplier = max(minMultiplier, newValue)
-                onChange()
-            } label: {
-                Image(systemName: "textformat.size.smaller")
-                    .font(.title3)
-                    .foregroundStyle(fontSizeMultiplier <= minMultiplier ? .tertiary : .primary)
-            }
-            .disabled(fontSizeMultiplier <= minMultiplier)
-            .buttonStyle(.plain)
+                divider
 
-            // MARK: Font Family Picker
-            // Presented as a Menu to keep the toolbar compact.
-            // Users see font display names; the enum rawValue is stored in AppState.
-            Menu {
-                ForEach(FontModel.allCases) { font in
-                    Button {
-                        selectedFont = font
-                        onChange()
-                    } label: {
-                        // Show a checkmark next to the active font.
-                        Label(
-                            font.displayName,
-                            systemImage: font == selectedFont ? "checkmark" : ""
-                        )
+                Menu {
+                    ForEach(FontModel.allCases) { font in
+                        Button {
+                            selectedFont = font
+                            onChange()
+                        } label: {
+                            Label(
+                                font.displayName,
+                                systemImage: font == selectedFont ? "checkmark" : ""
+                            )
+                        }
                     }
+                } label: {
+                    HStack(spacing: 6) {
+                        Text(selectedFont.displayName)
+                            .font(.subheadline)
+                            .lineLimit(1)
+                        Image(systemName: "chevron.up.chevron.down")
+                            .font(.caption2)
+                    }
+                    .frame(minWidth: 140, minHeight: 34)
                 }
-            } label: {
-                HStack(spacing: 4) {
-                    Text(selectedFont.displayName)
-                        .font(.subheadline)
-                    Image(systemName: "chevron.up.chevron.down")
-                        .font(.caption2)
-                }
-                .foregroundStyle(.primary)
-            }
-            .buttonStyle(.plain)
+                .buttonStyle(.plain)
 
-            // MARK: Font Size Increase (Lucide a-arrow-up equivalent)
-            Button {
-                let newValue = (fontSizeMultiplier + step).rounded(to: 1)
-                fontSizeMultiplier = min(maxMultiplier, newValue)
-                onChange()
-            } label: {
-                Image(systemName: "textformat.size.larger")
-                    .font(.title3)
-                    .foregroundStyle(fontSizeMultiplier >= maxMultiplier ? .tertiary : .primary)
+                divider
+
+                Button {
+                    let newValue = (fontSizeMultiplier + step).rounded(to: 1)
+                    fontSizeMultiplier = min(maxMultiplier, newValue)
+                    onChange()
+                } label: {
+                    Image(systemName: "textformat.size.larger")
+                        .font(.subheadline.weight(.semibold))
+                        .frame(width: 40, height: 34)
+                }
+                .buttonStyle(.plain)
+                .disabled(fontSizeMultiplier >= maxMultiplier)
             }
-            .disabled(fontSizeMultiplier >= maxMultiplier)
-            .buttonStyle(.plain)
+            .padding(.horizontal, 8)
+            .padding(.vertical, 6)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.gray.opacity(0.18))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.gray.opacity(0.45), lineWidth: 1)
+            )
         }
-        .padding(.horizontal)
+        .frame(maxWidth: .infinity)
+        .frame(minHeight: 56)
+        .padding(.horizontal, 24)
+        .padding(.vertical, 8)
+    }
+
+    private var divider: some View {
+        Rectangle()
+            .fill(Color.gray.opacity(0.45))
+            .frame(width: 1, height: 20)
     }
 }
 
-// MARK: - Double Rounding Helper
-
 private extension Double {
-    /// Rounds to `places` decimal places to avoid floating-point drift in the multiplier.
     func rounded(to places: Int) -> Double {
         let factor = pow(10.0, Double(places))
         return (self * factor).rounded() / factor

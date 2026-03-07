@@ -50,8 +50,8 @@ private struct ThemeCircle: View {
     // Drives the spring scale animation (spec §19).
     @State private var scale: CGFloat = 1.0
 
-    // Diameter of the circle in points.
-    private let diameter: CGFloat = 44
+    // Diameter of the circle in points (25% smaller than original 44pt).
+    private let diameter: CGFloat = 33
 
     var body: some View {
         Button(action: handleTap) {
@@ -70,12 +70,13 @@ private struct ThemeCircle: View {
                     )
                     .frame(width: diameter, height: diameter)
 
-                // Selection ring — visible only on the active theme.
-                if isSelected {
-                    Circle()
-                        .strokeBorder(Color.primary.opacity(0.6), lineWidth: 2.5)
-                        .frame(width: diameter + 5, height: diameter + 5)
-                }
+                // Always-visible ring: selected is thicker/brighter than unselected.
+                Circle()
+                    .strokeBorder(
+                        isSelected ? Color.primary.opacity(0.8) : Color.primary.opacity(0.35),
+                        lineWidth: isSelected ? 2.5 : 1
+                    )
+                    .frame(width: diameter + 5, height: diameter + 5)
             }
         }
         .buttonStyle(.plain)
