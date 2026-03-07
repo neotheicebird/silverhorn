@@ -47,9 +47,9 @@ final class AppState {
         didSet { persistFont() }
     }
 
-    // Multiplier applied on top of the 72px base font size (spec §9).
-    // 1.0 = base (72px). Step size chosen by FontControls view.
-    var fontSizeMultiplier: Double = 1.0
+    // Multiplier applied on top of the base font size.
+    // Default is slightly reduced to match preferred first-render sizing.
+    var fontSizeMultiplier: Double = 0.8
 
     // All available themes loaded from Config/themes.json.
     let availableThemes: [ThemeModel]

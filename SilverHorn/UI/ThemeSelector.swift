@@ -70,12 +70,13 @@ private struct ThemeCircle: View {
                     )
                     .frame(width: diameter, height: diameter)
 
-                // Selection ring — visible only on the active theme.
-                if isSelected {
-                    Circle()
-                        .strokeBorder(Color.primary.opacity(0.6), lineWidth: 2.5)
-                        .frame(width: diameter + 5, height: diameter + 5)
-                }
+                // Always-visible ring: selected is thicker/brighter than unselected.
+                Circle()
+                    .strokeBorder(
+                        isSelected ? Color.primary.opacity(0.8) : Color.primary.opacity(0.35),
+                        lineWidth: isSelected ? 2.5 : 1
+                    )
+                    .frame(width: diameter + 5, height: diameter + 5)
             }
         }
         .buttonStyle(.plain)

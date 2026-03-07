@@ -107,8 +107,8 @@ private struct ParagraphRow: View {
 
                 // Radio-style selection circle.
                 // Filled circle = selected; ring = unselected.
-                Image(systemName: paragraph.isSelected ? "circle.fill" : "circle")
-                    .foregroundStyle(paragraph.isSelected ? Color.accentColor : .secondary)
+                Image(systemName: paragraph.isSelected ? "checkmark.circle.fill" : "circle")
+                    .foregroundStyle(paragraph.isSelected ? .primary : .secondary)
                     .font(.title3)
                     .padding(.top, 2)
 

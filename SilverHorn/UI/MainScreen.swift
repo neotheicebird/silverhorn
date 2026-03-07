@@ -24,6 +24,7 @@
 // parameters — sub-views receive AppState via @Environment instead.
 
 import SwiftUI
+import UIKit
 
 struct MainScreen: View {
 
@@ -34,6 +35,11 @@ struct MainScreen: View {
 
     // Controls visibility of the export progress overlay (spec §20).
     @State private var isExporting: Bool = false
+    @State private var showSaveSuccessToast: Bool = false
+    @State private var saveSuccessMessage: String = ""
+    @State private var showSaveFailureAlert: Bool = false
+    @State private var saveFailureMessage: String = ""
+    @State private var saveToastDismissWorkItem: DispatchWorkItem?
 
     // Tracks which carousel page is currently visible.
     // Exposed to CardCarousel as a @Binding so Edit/Save target the right card.
@@ -63,12 +69,17 @@ struct MainScreen: View {
             .overlay {
                 if isExporting { exportProgressOverlay }
             }
+            .overlay(alignment: .top) {
+                if showSaveSuccessToast { saveSuccessToast }
+            }
         }
         // Paragraph selector modal (spec §5).
-        .sheet(isPresented: Binding(
-            get: { appState.showParagraphSelector },
-            set: { appState.showParagraphSelector = $0 }
-        )) {
+        .sheet(
+            isPresented: Binding(
+                get: { appState.showParagraphSelector },
+                set: { appState.showParagraphSelector = $0 }
+            )
+        ) {
             ParagraphSelectorModal(
                 paragraphs: Binding(
                     get: { appState.allParsedParagraphs },
@@ -102,6 +113,11 @@ struct MainScreen: View {
         // Kick off rendering whenever cards first populate.
         .onChange(of: appState.cards.count) { _, newCount in
             if newCount > 0 { appState.renderCards() }
+        }
+        .alert("Couldn’t Save Images", isPresented: $showSaveFailureAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text(saveFailureMessage)
         }
     }
 
@@ -174,9 +190,12 @@ struct MainScreen: View {
         } label: {
             Label("Share", systemImage: "square.and.arrow.up")
                 .font(.headline)
+                .foregroundStyle(.black)
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(.borderedProminent)
+        .buttonBorderShape(.roundedRectangle(radius: 12))
+        .tint(Color(white: 0.88))
         .controlSize(.large)
         .padding(.horizontal, 24)
         .padding(.vertical, 12)
@@ -190,18 +209,16 @@ struct MainScreen: View {
     // Secondary actions targeting the currently visible carousel card.
     // .bordered (not .borderedProminent) signals these are secondary to Share.
     private var actionButtonsRow: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 10) {
 
             // Edit — opens TextEditModal for the card currently visible in the carousel.
             if let card = currentCard {
                 Button {
                     editingCard = card
                 } label: {
-                    Label("Edit", systemImage: "pencil")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    secondaryLabel(title: "Edit", systemImage: "pencil")
                 }
-                .buttonStyle(.bordered)
-                .controlSize(.large)
+                .buttonStyle(SecondaryCompactButtonStyle())
             }
 
             // Save — exports only the currently visible card to the photo library.
@@ -209,24 +226,31 @@ struct MainScreen: View {
             Button {
                 exportImages(mode: .save, singleIndex: currentCarouselPage)
             } label: {
-                Label("Save", systemImage: "photo.badge.arrow.down")
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                secondaryLabel(title: "Save", systemImage: "photo.badge.arrow.down")
             }
-            .buttonStyle(.bordered)
-            .controlSize(.large)
+            .buttonStyle(SecondaryCompactButtonStyle())
 
             // Save All — exports every card; only visible when multiple cards exist.
             if appState.cards.count > 1 {
                 Button {
                     exportImages(mode: .save)
                 } label: {
-                    Label("Save All", systemImage: "square.and.arrow.down.on.square")
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    secondaryLabel(title: "Save All", systemImage: "square.and.arrow.down.on.square")
                 }
-                .buttonStyle(.bordered)
-                .controlSize(.large)
+                .buttonStyle(SecondaryCompactButtonStyle())
             }
         }
+    }
+
+    private func secondaryLabel(title: String, systemImage: String) -> some View {
+        HStack(spacing: 5) {
+            Image(systemName: systemImage)
+            Text(title)
+                .lineLimit(1)
+                .minimumScaleFactor(0.85)
+        }
+        .font(.subheadline.weight(.semibold))
+        .frame(maxWidth: .infinity)
     }
 
     // The card at the currently visible carousel page, or nil if out of range.
@@ -267,6 +291,17 @@ struct MainScreen: View {
         }
     }
 
+    private var saveSuccessToast: some View {
+        Text(saveSuccessMessage)
+            .font(.subheadline.weight(.semibold))
+            .foregroundStyle(.white)
+            .padding(.horizontal, 14)
+            .padding(.vertical, 10)
+            .background(.black.opacity(0.82), in: Capsule())
+            .padding(.top, 10)
+            .transition(.move(edge: .top).combined(with: .opacity))
+    }
+
     // MARK: - Export Logic
 
     private enum ExportMode { case share, save }
@@ -278,23 +313,77 @@ struct MainScreen: View {
         isExporting = true
         let images: [UIImage]
         if let i = singleIndex, i < appState.cards.count,
-           let img = appState.cards[i].renderedImage {
+            let img = appState.cards[i].renderedImage
+        {
             // Single-card path: wrap the one image in an array.
             images = [img]
         } else {
             // All-cards path: compact-map drops cards not yet rendered.
             images = appState.cards.compactMap(\.renderedImage)
         }
-        guard !images.isEmpty else { isExporting = false; return }
+        guard !images.isEmpty else {
+            isExporting = false
+            return
+        }
 
         switch mode {
         case .share:
             isExporting = false
             ImageExportService.share(images: images)
         case .save:
-            ImageExportService.saveToLibrary(images: images) { _ in
+            ImageExportService.saveToLibrary(images: images) { success in
                 self.isExporting = false
+                if success {
+                    showSaveSuccessFeedback(savedCount: images.count)
+                } else {
+                    showSaveFailureFeedback()
+                }
             }
         }
+    }
+
+    private func showSaveSuccessFeedback(savedCount: Int) {
+        saveSuccessMessage = savedCount == 1
+            ? "Saved to Photos"
+            : "Saved \(savedCount) images to Photos"
+
+        saveToastDismissWorkItem?.cancel()
+        withAnimation(.easeInOut(duration: 0.2)) {
+            showSaveSuccessToast = true
+        }
+
+        UINotificationFeedbackGenerator().notificationOccurred(.success)
+
+        let dismissWork = DispatchWorkItem {
+            withAnimation(.easeInOut(duration: 0.2)) {
+                showSaveSuccessToast = false
+            }
+        }
+        saveToastDismissWorkItem = dismissWork
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.6, execute: dismissWork)
+    }
+
+    private func showSaveFailureFeedback() {
+        saveFailureMessage = "Please allow Photos access and try again."
+        UINotificationFeedbackGenerator().notificationOccurred(.error)
+        showSaveFailureAlert = true
+    }
+}
+
+private struct SecondaryCompactButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .foregroundStyle(.primary)
+            .padding(.vertical, 7)
+            .padding(.horizontal, 10)
+            .background(
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.gray.opacity(0.18))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 12)
+                    .stroke(Color.gray.opacity(0.45), lineWidth: 1)
+            )
+            .opacity(configuration.isPressed ? 0.85 : 1.0)
     }
 }

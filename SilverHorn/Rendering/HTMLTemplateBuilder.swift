@@ -31,10 +31,11 @@ enum HTMLTemplateBuilder {
     static let cardHeightPt: CGFloat = 540
     /// Inner padding in points (120px / 2 for @2x).
     static let paddingPt:    CGFloat = 60
-    /// Base font size in points before scaling (72px / 2 for @2x, spec §8).
-    static let baseFontSizePt: CGFloat = 36   // 72px ÷ 2 = 36pt logical
-    /// Minimum font size in points (36px / 2 for @2x, spec §8).
-    static let minFontSizePt:  CGFloat = 18   // 36px ÷ 2 = 18pt logical
+    /// Base font size in points before scaling.
+    /// Increased to 2x to improve first-render readability.
+    static let baseFontSizePt: CGFloat = 72
+    /// Minimum font size in points allowed via user controls.
+    static let minFontSizePt:  CGFloat = 36
 
     // MARK: - Public API
 
