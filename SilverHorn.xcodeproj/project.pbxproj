@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -80,7 +80,7 @@
 		ACDD27E689B84293A0D43830 /* ThemeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeModel.swift; sourceTree = "<group>"; };
 		BB470AB7812E7E8FD118F31D /* FontModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontModel.swift; sourceTree = "<group>"; };
 		BE461D3A2F2119F1BA1A1E5F /* MainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreen.swift; sourceTree = "<group>"; };
-		C16149C0406999123E8CFAC4 /* SilverHorn.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SilverHorn.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		C16149C0406999123E8CFAC4 /* SilverHorn.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SilverHorn.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D6EF2F81DA20D0F91032FEC7 /* HTMLTemplateBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HTMLTemplateBuilder.swift; sourceTree = "<group>"; };
 		E0A3E905E2BBE819E521D35B /* themes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = themes.json; sourceTree = "<group>"; };
 		E6D1A765E6A3E250195E8DEC /* SilverHornApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SilverHornApp.swift; sourceTree = "<group>"; };
@@ -282,7 +282,6 @@
 			);
 			mainGroup = A7847848D8EF4A98F5129C7C;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -365,7 +364,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = club.skape.silverhorn;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -444,7 +447,11 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = club.skape.silverhorn;
 				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
