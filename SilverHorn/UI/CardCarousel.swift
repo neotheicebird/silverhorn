@@ -47,7 +47,7 @@ struct CardCarousel: View {
                 .tag(index)
             }
         }
-        .tabViewStyle(.page(indexDisplayMode: .always))
+        .tabViewStyle(.page(indexDisplayMode: cards.count > 1 ? .always : .never))
         // Tint the page dots using the accent colour.
         .indexViewStyle(.page(backgroundDisplayMode: .never))
         // Height is derived from card width via 5:4 landscape ratio plus space for dots.
