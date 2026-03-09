@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>2</string>
+	<string>3</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Silver Horn saves your social media cards to your photo library.</string>
 	<key>UIDeviceFamily</key>
