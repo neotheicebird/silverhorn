@@ -87,6 +87,23 @@ final class AppState {
 
         // Hand off to the paragraph parser (Phase 5).
         ParagraphParser.parse(text, into: self)
+
+        // Re-sharing the same note can produce the same card count as the
+        // previous session, so count-based view observers may not fire.
+        // Trigger rendering directly whenever parse produced immediate cards.
+        if !cards.isEmpty {
+            renderCards()
+        }
+    }
+
+    /// Returns true when shared text exists in the App Group container.
+    /// Used at app launch to skip first-run onboarding for share-driven sessions.
+    func hasPendingSharedText() -> Bool {
+        let defaults = UserDefaults(suiteName: "group.club.skape.silverhorn")
+        guard let text = defaults?.string(forKey: "pendingSharedText") else {
+            return false
+        }
+        return !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
     }
 
     // MARK: - Rendering
