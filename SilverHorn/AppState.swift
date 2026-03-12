@@ -64,9 +64,9 @@ final class AppState {
         let savedThemeId = UserDefaults.standard.string(forKey: "lastThemeId")
         selectedTheme = themes.first(where: { $0.id == savedThemeId }) ?? (themes.first ?? .default)
 
-        // Restore last font — fall back to Instrument if none saved.
+        // Restore last font — fall back to the app default if none saved.
         let savedFontRaw = UserDefaults.standard.string(forKey: "lastFontId")
-        selectedFont = FontModel(rawValue: savedFontRaw ?? "") ?? .instrument
+        selectedFont = FontModel(rawValue: savedFontRaw ?? "") ?? .defaultFont
     }
 
     // MARK: - IPC (spec §22, design.md §2)

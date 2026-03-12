@@ -101,9 +101,12 @@ enum HTMLTemplateBuilder {
             color: \(theme.textColor);
             text-align: center;
             width: 80%;             /* spec §6: text width = 80% of card (fixed, not max-width) */
-            word-wrap: break-word;
             overflow-wrap: break-word;
-            line-height: 1.35;
+            word-break: normal;
+            letter-spacing: normal;
+            word-spacing: normal;
+            line-height: normal;
+            font-kerning: normal;
             /*
               white-space: normal lets the JS overflow check work correctly.
               The JS scaling routine in card.html will adjust font-size if needed.

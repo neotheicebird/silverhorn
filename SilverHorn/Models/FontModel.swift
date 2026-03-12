@@ -14,16 +14,14 @@ import Foundation
 
 enum FontModel: String, CaseIterable, Identifiable {
 
-    // Custom fonts bundled in Assets/fonts/
-    case instrument = "Instrument"
-    case mona       = "Mona"
-
-    // System fonts available in WebKit without embedding
-    case georgia       = "Georgia"
+    // System fonts available in iOS WebKit without custom embedding.
     case helveticaNeue = "Helvetica Neue"
-    case cambria       = "Cambria"
+    case georgia       = "Georgia"
+    case avenirNext    = "Avenir Next"
+    case palatino      = "Palatino"
+    case futura        = "Futura"
     case courierNew    = "Courier New"
-    case liberationMono = "Liberation Mono"
+    case menlo         = "Menlo"
 
     // Identifiable conformance for SwiftUI ForEach
     var id: String { rawValue }
@@ -35,13 +33,13 @@ enum FontModel: String, CaseIterable, Identifiable {
     // For system fonts this matches the PostScript/web name exactly.
     var cssName: String {
         switch self {
-        case .instrument:   return "Instrument Serif"
-        case .mona:         return "Mona Sans"
         case .georgia:      return "Georgia"
         case .helveticaNeue: return "Helvetica Neue"
-        case .cambria:      return "Cambria"
+        case .avenirNext:   return "Avenir Next"
+        case .palatino:     return "Palatino"
+        case .futura:       return "Futura"
         case .courierNew:   return "Courier New"
-        case .liberationMono: return "Liberation Mono"
+        case .menlo:        return "Menlo"
         }
     }
 
@@ -49,22 +47,15 @@ enum FontModel: String, CaseIterable, Identifiable {
     // WKWebView HTML. Custom fonts are not available in the WebKit sandbox
     // unless explicitly injected. System fonts do not need this.
     var requiresEmbedding: Bool {
-        switch self {
-        case .instrument, .mona: return true
-        default:                 return false
-        }
+        false
     }
 
     // The filename (without extension) used to locate the font file
     // in Assets/fonts/ for embedding. Nil for system fonts.
     var fontFileName: String? {
-        switch self {
-        case .instrument: return "InstrumentSerif-Regular"
-        case .mona:       return "MonaSans-Regular"
-        default:          return nil
-        }
+        nil
     }
 
-    // Default font as specified in project-spec.txt §7.
-    static let defaultFont: FontModel = .instrument
+    // Default font used when no prior user selection exists.
+    static let defaultFont: FontModel = .helveticaNeue
 }
