@@ -15,9 +15,8 @@
 // 5. Extension completes, dismissing itself
 //
 // FORMATTING RULE (spec §4):
-// All formatting is stripped by requesting the `public.plain-text` UTI.
-// Emoji are preserved because they are valid Unicode scalar values within
-// plain text — no special handling needed.
+// Rich text is normalized to plain text before storage.
+// Emoji are preserved because they are valid Unicode scalar values in plain text.
 
 import UIKit
 import UniformTypeIdentifiers
@@ -33,11 +32,23 @@ class ShareViewController: UIViewController {
 
     // The custom URL scheme that triggers the main app to open.
     private let launchURL      = "silverhorn://open"
+    
+    // Prevent duplicate extraction work if viewDidAppear is fired again.
+    private var hasStartedProcessing = false
+    
+    // The extension accepts text payloads only.
+    // This aligns with v1 scope: Notes text sharing only.
+    private let supportedTypeIdentifiers: [String] = [
+        UTType.plainText.identifier, // "public.plain-text"
+        UTType.text.identifier       // "public.text"
+    ]
 
     // MARK: - Lifecycle
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+        guard !hasStartedProcessing else { return }
+        hasStartedProcessing = true
         // No UI to show — begin processing immediately on appearance.
         extractText()
     }
@@ -45,42 +56,63 @@ class ShareViewController: UIViewController {
     // MARK: - Text Extraction
 
     private func extractText() {
-        guard
-            let item   = extensionContext?.inputItems.first as? NSExtensionItem,
-            let providers = item.attachments, !providers.isEmpty
-        else {
-            // Nothing usable — just dismiss without launching.
+        let candidates = shareCandidates()
+        guard !candidates.isEmpty else {
+            completeRequest()
+            return
+        }
+        loadCandidate(candidates, at: 0)
+    }
+
+    private func shareCandidates() -> [(provider: NSItemProvider, typeIdentifier: String)] {
+        guard let items = extensionContext?.inputItems as? [NSExtensionItem] else {
+            return []
+        }
+
+        let providers = items
+            .compactMap(\.attachments)
+            .flatMap { $0 }
+
+        var candidates: [(provider: NSItemProvider, typeIdentifier: String)] = []
+        for typeIdentifier in supportedTypeIdentifiers {
+            for provider in providers where provider.hasItemConformingToTypeIdentifier(typeIdentifier) {
+                candidates.append((provider: provider, typeIdentifier: typeIdentifier))
+            }
+        }
+        return candidates
+    }
+
+    private func loadCandidate(_ candidates: [(provider: NSItemProvider, typeIdentifier: String)], at index: Int) {
+        guard index < candidates.count else {
             completeRequest()
             return
         }
 
-        // Prefer public.plain-text; fall back to public.text for rich-text sources.
-        // Both UTIs yield a String when loaded.
-        let preferredTypes = [
-            UTType.plainText.identifier,  // "public.plain-text"
-            UTType.text.identifier         // "public.text"
-        ]
+        let candidate = candidates[index]
+        candidate.provider.loadItem(forTypeIdentifier: candidate.typeIdentifier, options: nil) { [weak self] item, _ in
+            guard let self else { return }
 
-        for typeIdentifier in preferredTypes {
-            if let provider = providers.first(where: { $0.hasItemConformingToTypeIdentifier(typeIdentifier) }) {
-                provider.loadItem(forTypeIdentifier: typeIdentifier, options: nil) { [weak self] item, error in
-                    guard let self else { return }
-
-                    if let text = item as? String, !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        // Write to App Group so the main app can read it.
-                        self.writeToAppGroup(text)
-                        // Open the main app via the registered URL scheme.
-                        self.openMainApp()
-                    }
-                    // Always complete regardless of success/failure.
+            if let text = self.coerceSharedText(from: item),
+               !text.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                DispatchQueue.main.async {
+                    self.writeToAppGroup(text)
+                    self.openMainApp()
                     self.completeRequest()
                 }
-                return  // Handled — stop iterating type identifiers.
+                return
             }
-        }
 
-        // No supported type found.
-        completeRequest()
+            self.loadCandidate(candidates, at: index + 1)
+        }
+    }
+
+    private func coerceSharedText(from item: NSSecureCoding?) -> String? {
+        if let text = item as? String { return text }
+        if let attributed = item as? NSAttributedString { return attributed.string }
+        if let data = item as? Data {
+            return String(data: data, encoding: .utf8)
+        }
+        return nil
     }
 
     // MARK: - App Group Write
@@ -114,6 +146,8 @@ class ShareViewController: UIViewController {
     // MARK: - Complete
 
     private func completeRequest() {
-        extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+        DispatchQueue.main.async {
+            self.extensionContext?.completeRequest(returningItems: [], completionHandler: nil)
+        }
     }
 }

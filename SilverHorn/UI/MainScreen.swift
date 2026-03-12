@@ -40,6 +40,7 @@ struct MainScreen: View {
     @State private var showSaveFailureAlert: Bool = false
     @State private var saveFailureMessage: String = ""
     @State private var saveToastDismissWorkItem: DispatchWorkItem?
+    @State private var showHelpSheet: Bool = false
 
     // Tracks which carousel page is currently visible.
     // Exposed to CardCarousel as a @Binding so Edit/Save target the right card.
@@ -54,16 +55,24 @@ struct MainScreen: View {
                     mainContent
                 }
             }
-            // Logo replaces text title for brand identity (no .navigationTitle).
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    // Image asset added in Task 0 (logo_transparent.imageset).
-                    // scaledToFit + maxHeight keeps it proportional in the nav bar.
                     Image("logo_transparent")
                         .resizable()
                         .scaledToFit()
-                        .frame(maxHeight: 40)
+                        .frame(height: 34)
+                }
+
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showHelpSheet = true
+                    } label: {
+                        Image(systemName: "questionmark.circle")
+                            .font(.title3)
+                    }
+                    .buttonStyle(.plain)
+                    .accessibilityLabel("How to use Silverhorn")
                 }
             }
             .overlay {
@@ -109,6 +118,9 @@ struct MainScreen: View {
                 onCancel: { editingCard = nil }
             )
             .presentationDetents([.medium, .large])
+        }
+        .sheet(isPresented: $showHelpSheet) {
+            ShareWorkflowHelpView()
         }
         // Kick off rendering whenever cards first populate.
         .onChange(of: appState.cards.count) { _, newCount in
@@ -385,5 +397,72 @@ private struct SecondaryCompactButtonStyle: ButtonStyle {
                     .stroke(Color.gray.opacity(0.45), lineWidth: 1)
             )
             .opacity(configuration.isPressed ? 0.85 : 1.0)
+    }
+}
+
+private struct ShareWorkflowHelpView: View {
+    @Environment(\.dismiss) private var dismiss
+
+    var body: some View {
+        NavigationStack {
+            VStack(alignment: .leading, spacing: 24) {
+                Text("Welcome to Silverhorn")
+                    .font(.title.weight(.semibold))
+
+                Text("Turn text from Apple Notes into clean, shareable image cards.")
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+
+                VStack(spacing: 18) {
+                    featureRow(
+                        symbol: "note.text",
+                        title: "Share from Apple Notes",
+                        text: "Open a note and send the text to Silverhorn from the Share sheet."
+                    )
+                    featureRow(
+                        symbol: "square.stack",
+                        title: "Instant image cards",
+                        text: "Your paragraphs are automatically turned into simple visual cards."
+                    )
+                    featureRow(
+                        symbol: "square.and.arrow.up",
+                        title: "Share anywhere",
+                        text: "Send your cards to Instagram, Messages, Journal, or any app that accepts images."
+                    )
+                }
+
+                Text("If Silverhorn isn't visible in the Share sheet, tap \"More\" and enable it.")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+            }
+            .padding(24)
+            .navigationTitle("How To Use")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Done") {
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+
+    private func featureRow(symbol: String, title: String, text: String) -> some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: symbol)
+                .font(.title3.weight(.semibold))
+                .foregroundStyle(.secondary)
+                .frame(width: 26, alignment: .leading)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.headline)
+                Text(text)
+                    .font(.subheadline)
+                    .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+            Spacer(minLength: 0)
+        }
     }
 }
