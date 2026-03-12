@@ -37,10 +37,11 @@ class ShareViewController: UIViewController {
     private var hasStartedProcessing = false
     
     // The extension accepts text payloads only.
-    // This aligns with v1 scope: Notes text sharing only.
+    // Web URL is included to handle Notes share flows that provide links.
     private let supportedTypeIdentifiers: [String] = [
         UTType.plainText.identifier, // "public.plain-text"
-        UTType.text.identifier       // "public.text"
+        UTType.text.identifier,      // "public.text"
+        UTType.url.identifier        // "public.url"
     ]
 
     // MARK: - Lifecycle
@@ -109,6 +110,8 @@ class ShareViewController: UIViewController {
     private func coerceSharedText(from item: NSSecureCoding?) -> String? {
         if let text = item as? String { return text }
         if let attributed = item as? NSAttributedString { return attributed.string }
+        if let url = item as? URL { return url.absoluteString }
+        if let nsURL = item as? NSURL { return nsURL.absoluteString }
         if let data = item as? Data {
             return String(data: data, encoding: .utf8)
         }
